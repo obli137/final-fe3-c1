@@ -5,9 +5,15 @@ import { useDentistStates } from "../Context";
 const Card = ({ item }) => {
   const { setFavs } = useDentistStates();
   console.log(item);
+
   const addFav = () => {
-    // Aqui iria la logica para agregar la Card en el localStorage
-    setFavs((prevState) => [...prevState, item]);
+    // Guardar la tarjeta en localStorage
+    const favsFromStorage = JSON.parse(localStorage.getItem("favs")) || [];
+    const updatedFavs = [...favsFromStorage, item];
+    localStorage.setItem("favs", JSON.stringify(updatedFavs));
+
+    // Actualizar el estado con setFavs
+    setFavs(updatedFavs);
   };
 
   return (
@@ -20,7 +26,6 @@ const Card = ({ item }) => {
           <h6>{item.id}</h6>
         </div>
       </Link>
-      {/* Ademas deberan integrar la logica para guardar cada Card en el localStorage */}
       <button onClick={addFav} className="favButton">
         ⭐
       </button>
